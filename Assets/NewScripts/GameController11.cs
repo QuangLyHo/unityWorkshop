@@ -5,11 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class GameController1 : MonoBehaviour
 {
+    //array of enemy objects
+    // private GameObjects []hazards;
+    //spawn enemy ship
+    public GameObject enemyShip;
+
     public GameObject asteroid;
     public float spawnInterval = 2f;
     private float xValue = 6.5f;
     private float yValue = 0.0f;
-    private float zValue = 16.0f;
+    private float zValue = 4.5f;
 
     public float score;
     public TextMeshProUGUI scoreText;
@@ -20,6 +25,8 @@ public class GameController1 : MonoBehaviour
 
     void Start()
     {
+        
+        asteroid.GetComponent<Mover1>().speed = -2f; //set asteroid speed
         score = 0;
         gameOverText.text = "";
         gameRestartText.text = "";
@@ -44,6 +51,8 @@ public class GameController1 : MonoBehaviour
     public void AddScore(int scoreValue)
     {
         score += scoreValue;
+        if (score % 100 == 0)
+            increaseAsteroidSpeed();
         UpdateScore();
     }
 
@@ -57,6 +66,7 @@ public class GameController1 : MonoBehaviour
         float randomX = Random.Range(-xValue, xValue);
         Vector3 spawnPosition = new Vector3(randomX, yValue, zValue);
 
+        // Instantiate(asteroid, spawnPosition, Quaternion.identity);
         Instantiate(asteroid, spawnPosition, Quaternion.identity);
     }
 
@@ -75,5 +85,10 @@ public class GameController1 : MonoBehaviour
             isDead = false;
         }
         
+    }
+
+    public void increaseAsteroidSpeed() 
+    {
+        asteroid.GetComponent<Mover1>().speed -= 2f;
     }
 }
